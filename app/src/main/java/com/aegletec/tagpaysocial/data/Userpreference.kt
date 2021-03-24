@@ -32,7 +32,6 @@ class Userpreference @Inject constructor(context: Context){
 
         }
     }
-
     suspend fun clear() {
         dataStore.edit { preferences ->
             preferences.clear()
