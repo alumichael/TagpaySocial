@@ -5,15 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aegletec.tagpaysocial.data.models.AuthResponse
-import com.aegletec.tagpaysocial.data.models.LoginPost
-import com.aegletec.tagpaysocial.data.models.RegisterDevice
+import com.aegletec.tagpaysocial.data.api_models.AuthResponse
+import com.aegletec.tagpaysocial.data.api_models.LoginPost
+import com.aegletec.tagpaysocial.data.api_models.RegisterDevice
+import com.aegletec.tagpaysocial.data.localdb.db_model.User
 import com.aegletec.tagpaysocial.data.network.Resource
 import com.aegletec.tagpaysocial.data.repository.AuthRepository
+import com.aegletec.tagpaysocial.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class AuthViewModel @ViewModelInject constructor(
-        private val repository: AuthRepository)
+        private val auth_repository: AuthRepository,
+        private val user_repository: UserRepository)
     : ViewModel() {
     private val _loginResponse: MutableLiveData<Resource<AuthResponse>> = MutableLiveData()
     val loginResponse: LiveData<Resource<AuthResponse>> get() = _loginResponse
@@ -22,7 +25,7 @@ class AuthViewModel @ViewModelInject constructor(
             loginPost: LoginPost
     ) = viewModelScope.launch {
         _loginResponse.value = Resource.Loading
-        _loginResponse.value = repository.login(loginPost)
+        _loginResponse.value = auth_repository.login(loginPost)
     }
 
 
@@ -30,9 +33,16 @@ class AuthViewModel @ViewModelInject constructor(
             registerDevice: RegisterDevice
     ) = viewModelScope.launch {
         _loginResponse.value = Resource.Loading
-        _loginResponse.value = repository.register_device(registerDevice)
+        _loginResponse.value = auth_repository.register_device(registerDevice)
     }
 
+    suspend fun saveAccessTokens(accessToken: String) {
+        auth_repository.saveAccessTokens(accessToken)
+    }
+
+    suspend fun saveDeviceToDb_viewModel(user: AuthResponse){
+        user_repository.saveDeviceToDb_repo(user)
+    }
 
 
 

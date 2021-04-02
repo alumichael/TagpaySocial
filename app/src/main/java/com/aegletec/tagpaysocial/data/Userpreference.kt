@@ -22,8 +22,7 @@ class Userpreference @Inject constructor(context: Context){
     )
 
     val accessToken: Flow<String?>
-        get() = dataStore.data.map { preferences ->
-            preferences[ACCESS_TOKEN]
+        get() = dataStore.data.map { preferences -> preferences[ACCESS_TOKEN]
         }
 
     suspend fun saveAccessTokens(accessToken: String) {

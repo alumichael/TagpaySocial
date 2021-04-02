@@ -1,8 +1,7 @@
-package com.aegletec.tagpaysocial.data.models
+package com.aegletec.tagpaysocial.data.api_models
 
 
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
 
 data class AuthResponse(

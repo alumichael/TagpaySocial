@@ -1,37 +1,24 @@
 package com.aegletec.tagpaysocial.ui.auth
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.provider.Settings
-import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.aegletec.tagpaysocial.R
+import com.aegletec.tagpaysocial.data.api_models.LoginPost
+import com.aegletec.tagpaysocial.data.network.Resource
 import com.aegletec.tagpaysocial.databinding.LoginFragmentBinding
-import com.aegletec.tagpaysocial.ui.fromLoginActivity
-import com.aegletec.tagpaysocial.ui.fromSplashActivity
+import com.aegletec.tagpaysocial.ui.*
 import com.aegletec.tagpaysocial.ui.home.HomeActivity
-import com.aegletec.tagpaysocial.ui.snackbar
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.login_fragment.view.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -40,35 +27,57 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private lateinit var binding: LoginFragmentBinding
     private lateinit var model_name:String
     private lateinit var imei_no:String
+    private lateinit var email:String
+    private lateinit var password:String
+
 
     private val viewModel by viewModels<AuthViewModel>()
+    private val args: LoginFragmentArgs by navArgs()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = LoginFragmentBinding.bind(view)
 
+        binding.logEmail.editText?.setText(args.email)
 
         binding.submitBtn.setOnClickListener {
             with(binding){
-                val email=logEmail.edit_email.text.toString().trim()
-                val password=logPassword.edit_password.text.toString().trim()
-                model_name=Build.MODEL
-                snackbar(requestIMEI()+"  "+model_name,view)
-
-
-
+                 email=logEmail.edit_email.text.toString().trim()
+                 password=logPassword.edit_password.text.toString().trim()
+                 model_name=Build.MODEL
+                 imei_no=requestIMEI()
+                //snackbar(requestIMEI()+"  "+model_name,view)
+                validation(email,password,model_name,imei_no,view)
 
             }
 
-
-
-
         }
 
-        fun validation(){
+        viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
+            binding.submitBtn.visible(false)
+            binding.progressBar.visible(it is Resource.Loading)
+            when(it){
+                is Resource.Success->{
+                   lifecycleScope.launch {
+                       binding.submitBtn.visible(true)
+                       binding.progressBar.visible(false)
+                       viewModel.saveAccessTokens(
+                               it.value.token)
+                       requireActivity().fromLoginToHomeActivity(HomeActivity::class.java,view)
+                   }
+                }
+                is Resource.Failure -> {
+                    binding.submitBtn.visible(true)
+                    binding.progressBar.visible(false)
+                    handleApiError(it) {
+                    validation(email,password,model_name,imei_no,view)
+                    }
+                }
+            }
+        })
 
-        }
+
 
         binding.registerScreen.setOnClickListener {
           //  Navigation.findNavController(view).navigate(R.id.registerFragment)
@@ -80,37 +89,26 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
 
     }
 
+    fun validation(email:String,password:String,model_name:String,imei_no:String,view: View){
+        if (email.isEmpty()){
+            binding.logEmail.error="Please enter email"
+        }else if(password.isEmpty()){
+            binding.logPassword.error="Please enter password"
+        }else if (model_name.isEmpty()){
+            snackbar("Something went wrong",view)
+            Log.i("Model name", "Null model name")
+        }else if (imei_no.isEmpty()){
+            snackbar("Something went wrong",view)
+            Log.i("Android ID ", "Null android_id")
+        }else{
 
-    @SuppressLint("MissingPermission")
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun requestIMEI(): String {
-
-        if (ContextCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.READ_PHONE_STATE) !=
-                PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.READ_PHONE_STATE)) {
-
-            } else {
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.READ_PHONE_STATE), 2)
-
-            }
-        }
-
-        try {
-
-            val androidID = Settings.Secure.getString(requireActivity().contentResolver, Settings.Secure.ANDROID_ID)
-
-            if (androidID != null) {
-                 imei_no = androidID
-
-            }
-        } catch (ex: Exception) {
-          //  view?.let { snackbar(ex.toString(), it) }
-            Log.i("permissionError",ex.toString())
+            viewModel.login(LoginPost(email,imei_no,model_name,password,true))
 
         }
 
-        return imei_no
     }
+
+
 
 
 

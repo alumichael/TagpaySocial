@@ -112,16 +112,36 @@
             android:text="@string/forget_password"
             android:textColor="#000" />
 
-        <Button
-            android:id="@+id/submit_btn"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/submit_txt"
-            android:textColor="#fff"
-            android:background="#000"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:transitionName="button_tran"/>
+            android:layout_height="wrap_content">
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                app:indicatorColor="@color/primary"
+                app:indicatorName="LineSpinFadeLoaderIndicator" />
+
+            <Button
+                android:id="@+id/submit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/submit_txt"
+                android:textColor="#fff"
+                android:background="#000"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:visibility="visible"
+                android:transitionName="button_tran"/>
+
+
+
+        </FrameLayout>
+
+
 
         <Button
             android:id="@+id/register_screen"

@@ -1,8 +1,8 @@
 package com.aegletec.tagpaysocial.data.network
 
-import com.aegletec.tagpaysocial.data.models.AuthResponse
-import com.aegletec.tagpaysocial.data.models.LoginPost
-import com.aegletec.tagpaysocial.data.models.RegisterDevice
+import com.aegletec.tagpaysocial.data.api_models.AuthResponse
+import com.aegletec.tagpaysocial.data.api_models.LoginPost
+import com.aegletec.tagpaysocial.data.api_models.RegisterDevice
 import retrofit2.http.Body
 import retrofit2.http.POST
 
