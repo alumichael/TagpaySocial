@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.aegletec.tagpaysocial.ui.home.fragments.DashboardFragment"
+        android:label="dashboard_fragment"
+        tools:layout="@layout/dashboard_fragment" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_assignNFCFragment"
+            app:destination="@id/assignNFCFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_makePaymentFragment"
+            app:destination="@id/makePaymentFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_syncStatusFragment"
+            app:destination="@id/syncStatusFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_transactHistoryFragment"
+            app:destination="@id/transactHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/assignNFCFragment"
+        android:name="com.aegletec.tagpaysocial.ui.home.fragments.AssignNFCFragment"
+        android:label="assign_nfc_fragment"
+        tools:layout="@layout/assign_nfc_fragment" >
+        <action
+            android:id="@+id/action_assignNFCFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.aegletec.tagpaysocial.ui.home.fragments.ProfileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/makePaymentFragment"
+        android:name="com.aegletec.tagpaysocial.ui.home.fragments.MakePaymentFragment"
+        android:label="make_payment_fragment"
+        tools:layout="@layout/make_payment_fragment" >
+        <action
+            android:id="@+id/action_makePaymentFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.aegletec.tagpaysocial.ui.home.fragments.SettingFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" >
+        <action
+            android:id="@+id/action_settingFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/syncStatusFragment"
+        android:name="com.aegletec.tagpaysocial.ui.home.fragments.SyncStatusFragment"
+        android:label="sync_status_fragment"
+        tools:layout="@layout/sync_status_fragment" >
+        <action
+            android:id="@+id/action_syncStatusFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactHistoryFragment"
+        android:name="com.aegletec.tagpaysocial.ui.home.fragments.TransactHistoryFragment"
+        android:label="transact_history_fragment"
+        tools:layout="@layout/transact_history_fragment" >
+        <action
+            android:id="@+id/action_transactHistoryFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+</navigation>

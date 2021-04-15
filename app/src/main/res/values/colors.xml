@@ -10,4 +10,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#4CAF50</color>
+    <color name="grey">#C4C4C4</color>
+
+
+
+    <color name="gradient_one_blue">#40F5D5</color>
+    <color name="gradient_two_blue">#4187C7</color>
+
+
 </resources>

@@ -18,7 +18,6 @@ import com.aegletec.tagpaysocial.data.network.Resource
 import com.aegletec.tagpaysocial.ui.auth.LoginFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.android.synthetic.main.activity_splash.logo_splash
 import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.login_fragment.*
 import kotlinx.android.synthetic.main.login_fragment.logo
@@ -32,7 +31,7 @@ fun <A : Activity> Activity.startNewActivity(activity: Class<A>) {
     }
 }
 
-fun <A : Activity> Activity.fromSplashActivity(activity: Class<A>) {
+fun <A : Activity> Activity.fromSplashToLogin(activity: Class<A>) {
     Intent(this, activity).also {
         it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -46,7 +45,7 @@ fun <A : Activity> Activity.fromSplashActivity(activity: Class<A>) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             val option = ActivityOptions.makeSceneTransitionAnimation(this,
                     pair[0], pair[1], pair[2])
-            startActivity(it,option.toBundle())
+            startActivity(it, option.toBundle())
         }else{
             startActivity(it)
         }
@@ -70,8 +69,8 @@ fun <A : Activity> Activity.fromLoginToHomeActivity(activity: Class<A>, view: Vi
         )
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             val option = ActivityOptions.makeSceneTransitionAnimation(this,
-                    pair[0], pair[1], pair[2],pair[3],pair[4],pair[5],pair[6])
-            startActivity(it,option.toBundle())
+                    pair[0], pair[1], pair[2], pair[3], pair[4], pair[5], pair[6])
+            startActivity(it, option.toBundle())
           //  Navigation.findNavController(view).navigate(R.id.registerFragment)
 
         }else{
@@ -99,8 +98,8 @@ fun <A : Activity> Activity.fromRegisterToHomeActivity(activity: Class<A>, view:
         )
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             val option = ActivityOptions.makeSceneTransitionAnimation(this,
-                    pair[0], pair[1], pair[2],pair[3],pair[4],pair[5],pair[6],pair[7],pair[8])
-            startActivity(it,option.toBundle())
+                    pair[0], pair[1], pair[2], pair[3], pair[4], pair[5], pair[6], pair[7], pair[8])
+            startActivity(it, option.toBundle())
             //  Navigation.findNavController(view).navigate(R.id.registerFragment)
 
         }else{
@@ -131,12 +130,12 @@ fun View.snackbar(message: String, action: (() -> Unit)? = null) {
     snackbar.show()
 }
 
-fun Fragment.snackbar(message: String,view: View) {
+fun Fragment.snackbar(message: String, view: View) {
     Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
 
 }
 
-fun Activity.snackbar(message: String,view: View) {
+fun Activity.snackbar(message: String, view: View) {
     Snackbar.make(view, message, Snackbar.LENGTH_LONG).show()
 
 }
@@ -174,7 +173,7 @@ fun Activity.handleAllError(
 ) {
     val error = failure
     if (error != null) {
-        this.snackbar(error,view)
+        this.snackbar(error, view)
     }
 }
 
@@ -205,10 +204,15 @@ fun Activity.handleAllError(
         }
     } catch (ex: Exception) {
         //  view?.let { snackbar(ex.toString(), it) }
-        Log.i("permissionError",ex.toString())
+        Log.i("permissionError", ex.toString())
 
     }
 
     return imei_no
+}
+
+
+interface ItemClickListener{
+    fun onItemClick(pos: Int)
 }
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.aegletec.tagpaysocial.R
 import com.aegletec.tagpaysocial.ui.handleAllError
 import com.aegletec.tagpaysocial.ui.snackbar
@@ -17,11 +18,17 @@ import java.lang.Exception
 class HomeActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<HomeViewModel>()
+    lateinit var realm : Realm
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        val realm = Realm.getDefaultInstance()
+        realm = Realm.getDefaultInstance()
 
+        realm.executeTransaction { realm: Realm ->
+            viewModel.getUser()
+        }
 
         viewModel.userInfoResponse.observe(this, Observer {
            try {
@@ -34,17 +41,16 @@ class HomeActivity : AppCompatActivity() {
 
                handleAllError(findViewById(R.id.homepage),e.message)
 
-           }finally {
-
            }
 
         })
-        realm.executeTransaction { realm: Realm ->
-            viewModel.getUser()
-        }
 
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
 
+    }
 }

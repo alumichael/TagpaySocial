@@ -16,4 +16,5 @@
     <string name="forget_password">Forget Password?</string>
     <string name="submit_txt">SUBMIT</string>
     <string name="register_device_txt">Register Device</string>
+    <string name="background">Background</string>
 </resources>

@@ -40,7 +40,7 @@ class AuthViewModel @ViewModelInject constructor(
         auth_repository.saveAccessTokens(accessToken)
     }
 
-    suspend fun saveDeviceToDb_viewModel(user: AuthResponse){
+    fun saveDeviceToDb_viewModel(user: AuthResponse){
         user_repository.saveDeviceToDb_repo(user)
     }
 

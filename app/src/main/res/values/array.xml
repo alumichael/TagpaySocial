@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <array name="array_progress">
+        <item>@color/gradient_one_blue</item>
+        <item>@color/gradient_two_blue</item>
+    </array>
+
+
+
+</resources>
