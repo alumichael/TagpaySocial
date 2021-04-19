@@ -33,6 +33,18 @@ class AuthRepository @Inject constructor(
         userpreference.saveAccessTokens(accessToken)
     }
 
+    suspend fun saveUUID(uuid: String) {
+        userpreference.saveUUID(uuid)
+    }
+
+    suspend fun saveProjectUUID(projectuuid: String) {
+        userpreference.saveProjectUUID(projectuuid)
+    }
+
+    suspend fun saveDeviceID(device_id: String) {
+        userpreference.saveDeviceID(device_id)
+    }
+
 
 
 

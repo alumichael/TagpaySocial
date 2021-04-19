@@ -12,7 +12,6 @@ import org.bson.types.ObjectId
 open class User(
         @PrimaryKey
         var _id: ObjectId?=null,
-
         @SerialName("bvn")
         var bvn: String?=null,
         @SerialName("createdAt")

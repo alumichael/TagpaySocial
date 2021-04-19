@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aegletec.tagpaysocial.R
 import com.aegletec.tagpaysocial.data.localdb.db_model.BoardCards
-import com.aegletec.tagpaysocial.ui.ItemClickListener
 import com.aegletec.tagpaysocial.ui.home.HomeViewModel
 import kotlinx.android.synthetic.main.boardcardlist.view.*
 
@@ -18,8 +17,6 @@ class BoardCardsAdapter(val viewModel: HomeViewModel, val boardcardList: ArrayLi
     : RecyclerView.Adapter<BoardCardsAdapter.BoardCardHolder>(){
 
     var onItemClick: ((BoardCards) -> Unit)? = null
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardCardHolder {
         val root = LayoutInflater.from(parent.context).inflate(R.layout.boardcardlist, parent, false)
@@ -34,7 +31,6 @@ class BoardCardsAdapter(val viewModel: HomeViewModel, val boardcardList: ArrayLi
 
 
     }
-
 
 
     override fun getItemCount(): Int {
@@ -54,16 +50,6 @@ class BoardCardsAdapter(val viewModel: HomeViewModel, val boardcardList: ArrayLi
             }
         }
 
-       /* lateinit var itemclicklisterner: ItemClickListener
-
-
-        fun setItemClickListener(itemClickListener: ItemClickListener) {
-            itemclicklisterner = itemClickListener
-        }
-
-        override fun onClick(v: View?) {
-            this.itemclicklisterner.onItemClick(this.layoutPosition)
-        }*/
 
     }
 

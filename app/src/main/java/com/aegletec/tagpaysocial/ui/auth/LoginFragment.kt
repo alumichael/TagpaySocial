@@ -12,14 +12,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.aegletec.tagpaysocial.R
+import com.aegletec.tagpaysocial.data.Userpreference
 import com.aegletec.tagpaysocial.data.api_models.LoginPost
 import com.aegletec.tagpaysocial.data.network.Resource
 import com.aegletec.tagpaysocial.databinding.LoginFragmentBinding
 import com.aegletec.tagpaysocial.ui.*
 import com.aegletec.tagpaysocial.ui.home.HomeActivity
+import com.aegletec.tagpaysocial.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.realm.Realm
 import kotlinx.android.synthetic.main.login_fragment.view.*
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.login_fragment) {
@@ -29,30 +33,61 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private lateinit var imei_no:String
     private lateinit var email:String
     private lateinit var password:String
+    private lateinit var userpreference: Userpreference
+    lateinit var realm : Realm
 
 
     private val viewModel by viewModels<AuthViewModel>()
+    private val viewModelHome by viewModels<HomeViewModel>()
     private val args: LoginFragmentArgs by navArgs()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = LoginFragmentBinding.bind(view)
+        realm = Realm.getDefaultInstance()
+        userpreference=Userpreference(requireActivity())
 
         binding.logEmail.editText?.setText(args.email)
 
         binding.submitBtn.setOnClickListener {
-            with(binding){
-                 email=logEmail.edit_email.text.toString().trim()
-                 password=logPassword.edit_password.text.toString().trim()
-                 model_name=Build.MODEL
-                 imei_no=requestIMEI()
-                //snackbar(requestIMEI()+"  "+model_name,view)
-                validation(email,password,model_name,imei_no,view)
 
+            realm.executeTransaction { realm: Realm ->
+                viewModelHome.getUser()
             }
 
+
         }
+
+        viewModelHome.userInfoResponse.observe(requireActivity(), Observer {
+            lifecycleScope.launch {
+                try {
+                   // snackbar(it.firstName.toString(), findViewById(R.id.homepage))
+                    it.firstName.toString()
+                    with(binding){
+                        email=logEmail.edit_email.text.toString().trim()
+                        password=logPassword.edit_password.text.toString().trim()
+                        model_name=Build.MODEL
+                        imei_no=requestIMEI()
+
+                        Log.d("device_id",imei_no)
+                        Log.d("device_model",model_name)
+                        //snackbar(requestIMEI()+"  "+model_name,view)
+                        validation(email,password,model_name,imei_no,view)
+
+                    }
+
+
+                } catch (e: Exception) {
+
+                    handleAllError(view, "Update your device detail")
+                    navigateToRegister(view)
+                    userpreference.setLoggedin(false)
+
+                }
+            }
+
+        })
 
         viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
             binding.submitBtn.visible(false)
@@ -62,8 +97,11 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                    lifecycleScope.launch {
                        binding.submitBtn.visible(true)
                        binding.progressBar.visible(false)
-                       viewModel.saveAccessTokens(
-                               it.value.token)
+                       viewModel.saveAccessTokens(it.value.token)
+                       viewModel.saveDeviceID(imei_no)
+                       viewModel.saveUUID(it.value.uuid)
+                       viewModel.saveProjectUUID(it.value.projectUuid)
+
                        requireActivity().fromLoginToHomeActivity(HomeActivity::class.java,view)
                    }
                 }
@@ -80,10 +118,10 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
 
 
         binding.registerScreen.setOnClickListener {
-          //  Navigation.findNavController(view).navigate(R.id.registerFragment)
+
             lifecycleScope.launch{
-                //requireActivity().fromLoginActivity(AuthActivity::class.java,view)
-                Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment)
+                //Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment)
+                navigateToRegister(view)
             }
         }
 
@@ -109,6 +147,11 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
+
+    }
 
 
 

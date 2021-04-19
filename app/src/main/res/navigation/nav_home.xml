@@ -12,22 +12,34 @@
         tools:layout="@layout/dashboard_fragment" >
         <action
             android:id="@+id/action_dashboardFragment_to_assignNFCFragment"
-            app:destination="@id/assignNFCFragment" />
+            app:destination="@id/assignNFCFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
         <action
             android:id="@+id/action_dashboardFragment_to_makePaymentFragment"
-            app:destination="@id/makePaymentFragment" />
+            app:destination="@id/makePaymentFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
         <action
             android:id="@+id/action_dashboardFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_dashboardFragment_to_settingFragment"
-            app:destination="@id/settingFragment" />
+            app:destination="@id/settingFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
         <action
             android:id="@+id/action_dashboardFragment_to_syncStatusFragment"
-            app:destination="@id/syncStatusFragment" />
+            app:destination="@id/syncStatusFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
         <action
             android:id="@+id/action_dashboardFragment_to_transactHistoryFragment"
-            app:destination="@id/transactHistoryFragment" />
+            app:destination="@id/transactHistoryFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/assignNFCFragment"
@@ -36,7 +48,8 @@
         tools:layout="@layout/assign_nfc_fragment" >
         <action
             android:id="@+id/action_assignNFCFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment" />
+            app:destination="@id/dashboardFragment"
+           />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

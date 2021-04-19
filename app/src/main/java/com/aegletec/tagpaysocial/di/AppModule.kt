@@ -1,6 +1,10 @@
 package com.aegletec.tagpaysocial.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.createDataStore
+import com.aegletec.tagpaysocial.Constant
 import com.aegletec.tagpaysocial.data.Userpreference
 import com.aegletec.tagpaysocial.data.localdb.RealmOperation
 import com.aegletec.tagpaysocial.data.localdb.db_model.User
@@ -45,6 +49,13 @@ object AppModule {
         return Userpreference(context)
     }
 
+   /* @Provides
+    fun provideUserPreferences(@ApplicationContext context: Context): DataStore<Preferences> {
+        return context.createDataStore(
+                name = Constant.USERPREF
+        )
+    }*/
+
     @Singleton
     @Provides
     fun provideRealmData(): RealmOperation {
@@ -61,14 +72,12 @@ object AppModule {
     @Provides
 
     fun provideUserRepository(
-            realm: RealmOperation
+            userApi: ApiInterface,
+            realm: RealmOperation,
+            userpreference: Userpreference
     ): UserRepository {
-        return UserRepository(realm)
+        return UserRepository(userApi,realm,userpreference)
     }
-
-
-
-
 
 
 }

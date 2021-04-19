@@ -84,9 +84,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 is Resource.Failure -> {
                     binding.submitBtn.visible(true)
                     binding.progressBar.visible(false)
-                    handleApiError(it) {
-                        validation(email,password,model_name,imei_no,pin,login_code,view)
-                    }
+                    handleApiError(it) { validation(email,password,model_name,imei_no,pin,login_code,view) }
                 }
             }
         })

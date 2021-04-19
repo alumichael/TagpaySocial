@@ -40,10 +40,20 @@ class AuthViewModel @ViewModelInject constructor(
         auth_repository.saveAccessTokens(accessToken)
     }
 
+    suspend fun saveUUID(uuid: String) {
+        auth_repository.saveUUID(uuid)
+    }
+
+    suspend fun saveProjectUUID(projectuuid: String) {
+        auth_repository.saveProjectUUID(projectuuid)
+    }
+
+    suspend fun saveDeviceID(device_id: String) {
+        auth_repository.saveDeviceID(device_id)
+    }
+
     fun saveDeviceToDb_viewModel(user: AuthResponse){
         user_repository.saveDeviceToDb_repo(user)
     }
-
-
 
 }

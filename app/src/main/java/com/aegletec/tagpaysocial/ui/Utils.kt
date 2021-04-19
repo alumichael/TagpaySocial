@@ -14,8 +14,14 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import com.aegletec.tagpaysocial.R
+import com.aegletec.tagpaysocial.data.Userpreference
 import com.aegletec.tagpaysocial.data.network.Resource
+import com.aegletec.tagpaysocial.ui.auth.AuthActivity
 import com.aegletec.tagpaysocial.ui.auth.LoginFragment
+import com.github.loadingview.LoadingDialog
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.fragment_register.*
@@ -23,6 +29,7 @@ import kotlinx.android.synthetic.main.login_fragment.*
 import kotlinx.android.synthetic.main.login_fragment.logo
 import kotlinx.android.synthetic.main.login_fragment.submit_btn
 import kotlinx.android.synthetic.main.login_fragment.welcome
+import kotlinx.coroutines.launch
 
 fun <A : Activity> Activity.startNewActivity(activity: Class<A>) {
     Intent(this, activity).also {
@@ -113,6 +120,14 @@ fun View.visible(isVisible: Boolean) {
     visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
 }
 
+/*fun LoadingDialog.progressbar(isShow: Boolean, activity: Activity){
+  if (isShow) LoadingDialog.get(activity).show() else LoadingDialog.get(activity).hide()
+}*/
+
+fun Fragment.navigateToRegister(view: View){
+    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment)
+
+}
 
 
 fun View.enable(enabled: Boolean) {
@@ -142,8 +157,11 @@ fun Activity.snackbar(message: String, view: View) {
 
 fun Fragment.handleApiError(
         failure: Resource.Failure,
+        userpreference: Userpreference?=null,
         retry: (() -> Unit)? = null
+
 ) {
+
     when {
         failure.isNetworkError -> {requireView().snackbar(
                 "Please check your internet connection",
@@ -155,15 +173,21 @@ fun Fragment.handleApiError(
             if (this is LoginFragment) {
                 requireView().snackbar("You've entered incorrect email or password")
             } else {
-              //  logout()
+              // logout()
+                  lifecycleScope.launch {
+                      userpreference?.setLoggedin(false)
+                  }
+                requireActivity().startNewActivity(AuthActivity::class.java)
             }
         }
         else -> {
             val error = failure.errorBody?.string().toString()
             requireView().snackbar(error)
+            Log.d("apiError",error)
         }
     }
 }
+
 
 fun Activity.handleAllError(
         view: View,
@@ -174,6 +198,22 @@ fun Activity.handleAllError(
     val error = failure
     if (error != null) {
         this.snackbar(error, view)
+        Log.d("dbError",error)
+
+    }
+}
+
+fun Fragment.handleAllError(
+        view: View,
+        failure: String?,
+        retry: (() -> Unit)? = null
+
+) {
+    val error = failure
+    if (error != null) {
+        this.snackbar(error, view)
+        Log.d("dbError",error)
+
     }
 }
 
@@ -211,8 +251,4 @@ fun Activity.handleAllError(
     return imei_no
 }
 
-
-interface ItemClickListener{
-    fun onItemClick(pos: Int)
-}
 

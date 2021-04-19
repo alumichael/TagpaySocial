@@ -1,13 +1,16 @@
 package com.aegletec.tagpaysocial.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.aegletec.tagpaysocial.R
+import com.aegletec.tagpaysocial.data.Userpreference
 import com.aegletec.tagpaysocial.databinding.ActivitySplashBinding
 import com.aegletec.tagpaysocial.ui.auth.AuthActivity
 import com.aegletec.tagpaysocial.ui.home.HomeActivity
@@ -16,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.realm.Realm
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
@@ -26,6 +30,8 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var realm: Realm
     private val viewModel by viewModels<HomeViewModel>()
 
+    @Inject
+     lateinit var userpreference: Userpreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +39,7 @@ class SplashActivity : AppCompatActivity() {
         val view=binding.root
         setContentView(view)
         realm= Realm.getDefaultInstance()
+
 
         //Animations
         scaleAnim = AnimationUtils.loadAnimation(this, R.anim.scale_animation)
@@ -42,23 +49,26 @@ class SplashActivity : AppCompatActivity() {
         binding.logoSplash.animation=bottomAnim
         binding.sloganText.animation=bottomAnim
 
-        lifecycleScope.launch{
-            delay(5000)
-           // val activity = if (it == null) AuthActivity::class.java else HomeActivity::class.java
-            realm.executeTransaction { realm: Realm ->
-                viewModel.getUser()
+        userpreference.isLoggedIn().asLiveData().observe(this, Observer {
+
+            Log.d("isLoggedIn",it.toString())
+
+            lifecycleScope.launch{
+                delay(5000)
+                if (!it) fromSplashToLogin(AuthActivity::class.java) else  startNewActivity(HomeActivity::class.java)
+
+                // val activity = if (it == null) AuthActivity::class.java else HomeActivity::class.java
+                /*realm.executeTransaction { realm: Realm ->
+                    viewModel.getUser()
+                }*/
+
             }
-
-        }
-
-
-        viewModel.userInfoResponse.observe(this, Observer {
-
-           // snackbar(it.firstName.toString(),findViewById(R.id.splash_page))
-
-            if (!it.isManaged) fromSplashToLogin(AuthActivity::class.java) else  startNewActivity(HomeActivity::class.java)
 
         })
 
+
     }
+
 }
+
+

@@ -58,7 +58,7 @@
             android:text="Communities"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/textView6"
+            app:layout_constraintEnd_toStartOf="@+id/community_count"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -72,7 +72,7 @@
             app:rcAnimationEnable="true"
             app:rcAnimationSpeedScale="3"
             app:rcBackgroundColor="@color/grey"
-            app:rcProgress="90"
+            app:rcProgress="0"
             app:rcProgressColors="@array/array_progress"
             app:rcRadius="30dp" />
 
@@ -85,7 +85,7 @@
             android:text="Beneficiaries"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/textView7"
+            app:layout_constraintEnd_toStartOf="@+id/beneficiary_count"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/seekBar_communities" />
 
@@ -100,7 +100,7 @@
             app:rcAnimationEnable="true"
             app:rcAnimationSpeedScale="3"
             app:rcBackgroundColor="@color/grey"
-            app:rcProgress="90"
+            app:rcProgress="0"
             app:rcProgressColors="@array/array_progress"
             app:rcRadius="30dp" />
 
@@ -113,7 +113,7 @@
             android:text="Payment Item"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/textView8"
+            app:layout_constraintEnd_toStartOf="@+id/payment_count"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/seekBar_beneficial" />
 
@@ -128,7 +128,7 @@
             app:rcAnimationEnable="true"
             app:rcAnimationSpeedScale="3"
             app:rcBackgroundColor="@color/grey"
-            app:rcProgress="90"
+            app:rcProgress="0"
             app:rcProgressColors="@array/array_progress"
             app:rcRadius="30dp" />
 
@@ -141,7 +141,7 @@
             android:text="Synced Payment"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/textView9"
+            app:layout_constraintEnd_toStartOf="@+id/synce_payment_count"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/seekBar_payment_item" />
 
@@ -150,49 +150,49 @@
             android:layout_width="0dp"
             android:layout_height="15dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/textView5"
             app:rcAnimationEnable="true"
             app:rcAnimationSpeedScale="3"
             app:rcBackgroundColor="@color/grey"
-            app:rcProgress="90"
+            app:rcProgress="0"
             app:rcProgressColors="@array/array_progress"
             app:rcRadius="30dp" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/community_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50/1000"
+            android:text="0/0"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="@+id/textView2" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/beneficiary_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50/1000"
+            android:text="0/0"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="@+id/textView3" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/payment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50/100"
+            android:text="0/0"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/synce_payment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="50/10"
+            android:text="0/0"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="@+id/textView5" />
@@ -220,5 +220,16 @@
             android:layout_height="50dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+<!--
+    <com.github.loadingview.LoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        app:lv_end_color="@color/color_end"
+        app:lv_external_radius="24dp"
+        app:lv_internal_radius="4dp"
+        app:lv_start_color="@color/color_start" />-->
 
 </FrameLayout>

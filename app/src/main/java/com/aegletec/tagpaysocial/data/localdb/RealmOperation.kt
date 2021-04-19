@@ -1,22 +1,23 @@
 package com.aegletec.tagpaysocial.data.localdb
 
-import androidx.lifecycle.LiveData
+import android.util.Log
+import com.aegletec.tagpaysocial.data.api_models.AssignedBeneficiaries
 import com.aegletec.tagpaysocial.data.api_models.AuthResponse
-import com.aegletec.tagpaysocial.data.localdb.db_model.User
+import com.aegletec.tagpaysocial.data.localdb.db_model.*
 import io.realm.Realm
-import io.realm.RealmChangeListener
-import io.realm.RealmModel
-import io.realm.RealmResults
+import io.realm.RealmList
 import org.bson.types.ObjectId
 import javax.inject.Inject
 
 
- class RealmOperation @Inject constructor(){
+class RealmOperation @Inject constructor(){
 
     private val realm = Realm.getDefaultInstance()
+    val assignedBeneficiariesItem: RealmList<AssignedBeneficiariesItem> = RealmList()
+    val assignedCommunitiesItem: RealmList<AssignedCommunitiesItem> = RealmList()
+    val assignedBeneficialPaymentsItem: RealmList<AssignedBeneficialPaymentsItem> = RealmList()
 
     val id=ObjectId()
-
      fun saveDevice(user: AuthResponse){
         realm.executeTransaction { realm: Realm ->
             val saveUser=realm.createObject(User::class.java, id)
@@ -38,11 +39,80 @@ import javax.inject.Inject
 
         }
     }
-
     fun deleteDb(){
         realm.executeTransaction { realm: Realm ->
             realm.deleteAll()
         }
+    }
+
+     fun saveAssignedBeneficials(assignedbeneficials: RealmList<AssignedBeneficiariesItem>){
+        try {
+            realm.executeTransaction { realm: Realm ->
+                assignedBeneficiariesItem.clear()
+                assignedBeneficiariesItem.addAll(assignedbeneficials)
+
+                val assignedbeneficial=realm.createObject(AssignedBeneficiariesLocal::class.java)
+                assignedbeneficial.assignedBeneficiariesItem.addAll(assignedBeneficiariesItem)
+            }
+        }catch (e:Exception){
+
+            Log.d("dbError",e.message.toString())
+        }
+
+     }
+
+
+    fun saveAssignedCommunities(assignedcommunities: RealmList<AssignedCommunitiesItem>){
+        try {
+            realm.executeTransaction { realm: Realm ->
+                assignedCommunitiesItem.clear()
+                assignedCommunitiesItem.addAll(assignedcommunities)
+
+                val assignedcommunities=realm.createObject(AssignedCommunities::class.java)
+                assignedcommunities.assignedCommunitiesItem.addAll(assignedCommunitiesItem)
+            }
+        }catch (e:Exception){
+
+            Log.d("dbError",e.message.toString())
+        }
+
+    }
+
+
+
+    fun saveAssignedBeneficialPayments(assignedpayments: RealmList<AssignedBeneficialPaymentsItem>){
+        try {
+            realm.executeTransaction { realm: Realm ->
+                assignedBeneficialPaymentsItem.clear()
+                assignedBeneficialPaymentsItem.addAll(assignedpayments)
+
+                val assignedpayment=realm.createObject(AssignedBeneficialPayments::class.java)
+                assignedpayment.assignedBeneficialPaymentsItem.addAll(assignedBeneficialPaymentsItem)
+            }
+        }catch (e:Exception){
+
+            Log.d("dbError",e.message.toString())
+        }
+
+    }
+
+     fun saveUnsyncedBeneficialLocal(uuid: String, walletNumber: String){
+         realm.executeTransaction { realm: Realm ->
+             val unsyncedbeneficial=realm.createObject(UnsyncedBeneficialLocal::class.java, id)
+             unsyncedbeneficial.uuid=uuid
+             unsyncedbeneficial.walletNumber=walletNumber
+         }
+
+     }
+
+    fun saveUnsyncedBeneficialPayment(uuid: String, houseHoldNo: String){
+        realm.executeTransaction { realm: Realm ->
+            val unsyncedbeneficial=realm.createObject(UnsyncedBeneficialPayments::class.java, id)
+            unsyncedbeneficial.houseHoldNo=houseHoldNo
+            unsyncedbeneficial.uuid=uuid
+
+        }
+
     }
 
 
