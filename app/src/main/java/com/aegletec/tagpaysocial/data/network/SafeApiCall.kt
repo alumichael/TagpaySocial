@@ -1,5 +1,6 @@
 package com.aegletec.tagpaysocial.data.network
 
+import android.accounts.NetworkErrorException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -17,6 +18,7 @@ interface SafeApiCall {
                     is HttpException -> {
                         Resource.Failure(false, throwable.code(), throwable.response()?.errorBody())
                     }
+
                     else -> {
                         Resource.Failure(true, null, null)
                     }
@@ -25,3 +27,4 @@ interface SafeApiCall {
         }
     }
 }
+

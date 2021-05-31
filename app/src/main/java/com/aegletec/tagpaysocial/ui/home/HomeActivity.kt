@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aegletec.tagpaysocial.R
 import com.aegletec.tagpaysocial.data.Userpreference
+import com.aegletec.tagpaysocial.databinding.LoginFragmentBinding
 import com.aegletec.tagpaysocial.ui.auth.AuthActivity
 import com.aegletec.tagpaysocial.ui.handleAllError
 import com.aegletec.tagpaysocial.ui.navigateToRegister
@@ -25,6 +26,7 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel by viewModels<HomeViewModel>()
 
 
+
     @Inject
     lateinit var userpreference: Userpreference
 
@@ -32,6 +34,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
 
         lifecycleScope.launch {
             userpreference.setLoggedin(true)

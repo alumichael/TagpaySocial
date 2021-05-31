@@ -1,6 +1,7 @@
 package com.aegletec.tagpaysocial.data.network
 
 import android.content.Context
+import com.aegletec.tagpaysocial.Constant.Companion.BASE_URL
 import okhttp3.Authenticator
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,10 +9,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitClient {
-
-    companion object {
-        private const val BASE_URL = "http://206.189.161.140:8080/"
-    }
 
     fun <Api> buildApi(
             api: Class<Api>,

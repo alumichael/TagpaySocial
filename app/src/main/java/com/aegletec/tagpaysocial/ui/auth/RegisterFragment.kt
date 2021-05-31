@@ -91,6 +91,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
         binding.loginScreen.setOnClickListener {
             lifecycleScope.launch{
+
                 //requireActivity().fromLoginActivity(AuthActivity::class.java,view)
                 Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment)
             }

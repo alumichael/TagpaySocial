@@ -16,8 +16,7 @@ class AuthRepository @Inject constructor(
 
        suspend fun login(
               loginPost: LoginPost
-       ) =safeApiCall{
-
+       ) = safeApiCall{
            api.login(loginPost)
 
        }
@@ -28,6 +27,7 @@ class AuthRepository @Inject constructor(
         api.registerDevice(registerDevice)
 
     }
+
 
     suspend fun saveAccessTokens(accessToken: String) {
         userpreference.saveAccessTokens(accessToken)

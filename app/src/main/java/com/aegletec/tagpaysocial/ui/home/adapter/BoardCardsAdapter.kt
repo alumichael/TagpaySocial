@@ -29,7 +29,6 @@ class BoardCardsAdapter(val viewModel: HomeViewModel, val boardcardList: ArrayLi
         holder.binding.card_name.text=cardoption.card_name
         holder.binding.card_thumbnail.setImageResource(cardoption.card_thumbnail)
 
-
     }
 
 
@@ -39,7 +38,6 @@ class BoardCardsAdapter(val viewModel: HomeViewModel, val boardcardList: ArrayLi
         }
         return boardcardList.size
     }
-
 
 
     inner class BoardCardHolder(val binding: View) :RecyclerView.ViewHolder(binding){

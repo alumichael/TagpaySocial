@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.coroutines.launch
+
 import javax.inject.Inject
 
 
@@ -230,8 +232,6 @@ class DashboardFragment : Fragment(R.layout.dashboard_fragment) {
 
                                 initView()
 
-
-
                             })
 
 
@@ -249,7 +249,7 @@ class DashboardFragment : Fragment(R.layout.dashboard_fragment) {
 
     }
 
-    fun initView() {
+    private fun initView() {
         //set all count text
         with(binding) {
 

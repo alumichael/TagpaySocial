@@ -18,6 +18,7 @@ class AuthViewModel @ViewModelInject constructor(
         private val auth_repository: AuthRepository,
         private val user_repository: UserRepository)
     : ViewModel() {
+
     private val _loginResponse: MutableLiveData<Resource<AuthResponse>> = MutableLiveData()
     val loginResponse: LiveData<Resource<AuthResponse>> get() = _loginResponse
 

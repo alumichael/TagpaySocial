@@ -11,9 +11,11 @@ import retrofit2.http.*
 
 interface ApiInterface {
 
+
     @POST("api/v1/auth/register-device")
     suspend fun registerDevice(
            @Body registerDevice: RegisterDevice
+
     ):AuthResponse
 
     @POST("api/v1/auth/social")

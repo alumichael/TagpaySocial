@@ -32,16 +32,13 @@ class Userpreference @Inject constructor( context: Context){
             name = USERPREF
     )
 
-    val accessToken= dataStore.data.map { preferences -> preferences[ACCESS_TOKEN]
-        }
-
-
     suspend fun setLoggedin(updated_beneficials: Boolean) {
         dataStore.edit { preferences ->
             preferences[LOGGED_IN] = updated_beneficials
 
         }
     }
+
     fun isLoggedIn()= dataStore.data.map { preferences -> preferences[LOGGED_IN]?:false}
 
 
@@ -61,6 +58,7 @@ class Userpreference @Inject constructor( context: Context){
 
         }
     }
+
     fun totalBeneficials() = dataStore.data.map { preferences -> preferences[TOTAL_ASSIGN_BENEFICIALS]?:0 }
 
 

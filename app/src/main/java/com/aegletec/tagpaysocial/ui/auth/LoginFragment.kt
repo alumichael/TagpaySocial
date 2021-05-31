@@ -24,6 +24,7 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.login_fragment.view.*
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.login_fragment) {
@@ -33,8 +34,11 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private lateinit var imei_no:String
     private lateinit var email:String
     private lateinit var password:String
-    private lateinit var userpreference: Userpreference
+   // private lateinit var userpreference: Userpreference
     lateinit var realm : Realm
+
+    @Inject
+    private lateinit var userpreference: Userpreference
 
 
     private val viewModel by viewModels<AuthViewModel>()
@@ -46,7 +50,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding = LoginFragmentBinding.bind(view)
         realm = Realm.getDefaultInstance()
-        userpreference=Userpreference(requireActivity())
+
 
         binding.logEmail.editText?.setText(args.email)
 
@@ -90,13 +94,16 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         })
 
         viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
+
             binding.submitBtn.visible(false)
             binding.progressBar.visible(it is Resource.Loading)
+
             when(it){
                 is Resource.Success->{
                    lifecycleScope.launch {
                        binding.submitBtn.visible(true)
                        binding.progressBar.visible(false)
+
                        viewModel.saveAccessTokens(it.value.token)
                        viewModel.saveDeviceID(imei_no)
                        viewModel.saveUUID(it.value.uuid)
@@ -108,6 +115,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 is Resource.Failure -> {
                     binding.submitBtn.visible(true)
                     binding.progressBar.visible(false)
+
                     handleApiError(it) {
                     validation(email,password,model_name,imei_no,view)
                     }
